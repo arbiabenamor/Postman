@@ -1,0 +1,380 @@
+{
+	"info": {
+		"_postman_id": "b69c2d81-f6a9-4803-914b-cbcf9ffeab9f",
+		"name": "courses API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33452459"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"olivier@mail.com\",\n  \"password\": \"bestPassw0rd\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"signup"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pour stoker le token ",
+							"var jsonData = pm.response.json() ",
+							" var token =  jsonData.accesstoken // esmha kima filbody",
+							"pm.environment.set(\"Token\", token); ",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"olivier@mail.com\",\n  \"password\": \"bestPassw0rd\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST course",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonfile = pm.response.json() \r",
+							" var courseID =  jsonfile.id \r",
+							"pm.environment.set(\"secondvar\", courseID); \r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201); // test pourdire created w on a ajouter qq chose au serveur \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"4\",\r\n     \"Title\": \"frame\",\r\n    \"Description\": \"Full course of frame from ZERO\"\r\n    \r\n    }\r\n    ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/660/courses/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"660",
+						"courses",
+						""
+					]
+				},
+				"description": "To add new course for Qcart"
+			},
+			"response": []
+		},
+		{
+			"name": "get  course  ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"check that the api response is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"check the title of the first course\", function () {\r",
+							"   // var jsonData = pm.response.json(); // on a stoker la reponse dans un ////varaible //jsonData\r",
+							"  //  pm.expect(jsonData.Title).to.eql(\"frame\");\r",
+							"//});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "/* db.json : c'est un dataBase \r\n\r\n         json : file, format dans lequel on fait stokage de data : c'est comme base de donné ; on envoie ou recoit data pour website\r\npuis le postman ki 7attinelou el url 3mal request lel API elli bch na3mloulou test w jeb les données elli mawjoudin fil DB fi serveur  et on a 2 API course et users \r\ncontent type ya3ni type request wel response de type json\r\nparametere ; hiya 7ajet nzidouhom lel url ki nab3thouh bech nzidou na3tiwh des details : n7otou ? w ay 7aja tji ba3dha ya3ni parametre, parametre c'est key\"\" et valeur\r\ngetParametre : http://localhost:3000/courses?Title=Postman\r\nAuth : wa9t l'application 3anna fiha des autorisation , token najmou n7otouh fih variable mta3 environnement kima variable url dans notre cas  \r\n\r\nenvironnement-variable : najmou nest3amlouha fi autho , param w fil body \"env_variab\" w fil url zeda : tsahhel 33lina el khedma \r\nput : on modifie une information dans le serveur\r\npostman collection : on peut stocker sur ca les reqeuts mte3na , collection c'est un ensemble de request a ordonner selon qu'est ce quon veut executer : ensempbe de api\r\n\r\nE2E : scenario lel api elli 3malthom bl les reqeusts (get post put delete)\r\n  \r\nles 3 snipts qu'on utilise \r\n1* pm.test(\"nom de cas de test\", function () : test case \r\npm.response.to.have.status(expected result)\r\n\r\n2* pour verifier contient strinng ou pas \r\npm.test(\"check if the reponse contains Postman string\", function () {\r\n    pm.expect(pm.response.text()).to.include(\"Postman\"); \r\n});\r\n\r\n mais on utilse hedhi pour verifier le key specifique et pas dans toute la reponse \r\npm.test(\"check the title of the first course\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.Title).to.eql(\"Postman\");\r\n});\r\n\r\n\r\n\r\n\r\n3* pour verifier temps de reponse \r\npm.test(\"Response time is less than 200ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(200);\r\n});\r\n \r\n- serveur ba3ad ma 3malna fih 2 database courses w users : generelna 2 url , 2API : \r\n*http://localgost:3000/courses: API\r\n*http://localgost:3000/courses/1: endpoint\r\n==>biensur en utilisant des methodes de get/post/delete/put \r\n==>API intercation entre https w des requests, endpoints  avec un site \r\narray: [] : tableau \r\non peut acceder a un path par index : course[0].video[0]\r\n\r\n\r\nvalue en json seuelemnt : string, bollen, entier..\r\n\r\n\r\n on a met la reponse dans un varibla jsonfile\r\non met l id de reponse dansvriable coursId\r\n cet id retourné est mis dans vari-\r\n\r\nbnina E2E framwork mte3na : post get edit delete , en stokant la reponse de ce que ete posté.id dans variable de environnemetn puis utilisé cette variable dans les autre request\r\n\r\npm.environment.set(\"secondvar\", courseID); \r\n\r\n-----------------------------------global variable-------------------------------------------------\r\npm.globals.set(\"variable_key\", \"variable_value\");\r\nle but : n7ebou cettevariable tkoun accesible mn kol les environnements\r\n---------------------------Mock-API----------------------------\r\n\r\na7na nab3thou response elli n7ebou 3leha lel front end\r\n1/bina Apiw 3tineha url /api/qacart/courses de telle facon n7ebouh yraj3elna el response elli 3tinehelou \r\n\r\n------------------------authentication----------------------------------------\r\non veut pas que tous le monde fait post et get , on veut authentification en utilisant serveur\"JSON server Auth\" \r\non fait la registration de cet API : {{url}}/signup ou register ou users : \r\n{\r\n  \"email\": \"olivier@mail.com\",\r\n  \"password\": \"bestPassw0rd\"\r\n}\r\n==> y5arjelna access token bech najmou ykoun 3anna acces lel course application mte3na wel password il se stocke de façon crypté \r\npour qu'on doit avoir accés au cours : par {{url}}/660/courses/{{secondvar}} : cette methode nous permet d'avois acces au cours : 660 nous devons etre login bech na3mlou read/write\r\n==> donc il nous return 401 Unauthorisation\r\n==> donc si n7ebou nebniw API avec authorisation on doit mettere dan request : {{url}}/660/courses/{{secondvar}}\r\n-ba3d l'enregistrement el token elli yab3thhouln nesta3mlou ba3d ki n7eb n'accedi lel cours edheka , donc nemchi lel authorizat-->bareertoken et je emt cette token , puis send: {{url}}/660/courses/{{secondvar}}\r\n\r\n-donc c'est pas logique kol ma nji nekhou token barrer na3mel sign up:donc na3mel singin /login 3la nafs el user yrajja3li el access token elli bech nesta3mlha bel \"get \" \r\n--------------E2E avec login test------------------------------\r\n1-ba3d ma 3malna login : token elli raje3houlna ==>cet token on le stock dans environnement varible  5ateron va l'utilser dans les autres requests \r\n2-puis token edhika nzidha lel les autres api bech yesta3mlhom \r\n\r\n=>on a 7 tests cases puis en run la collection\r\n-------------------newman--------------------\r\nNewman is a command-line collection runner for Postman\r\n\r\nen cmd en lance cette commande comme ca newman run collection.json -e locally_env_variable.json\r\n------------------------html reporteravecnewman------------------------------------------------\r\nle resultet est dans un page html\r\n---------------jenkins----------------------------\r\njenkins : ay 7aja a7na na3mlouha bl command line ,najmou na3mloulou run en utilisant jenkins\r\nl behi fi jenkins a7na na5tarou wa9t mou3ayn bech ya3ml run l test cases mte3na; c'est pas la peine n7elou cmd w na3mlou newman run the-test-cases , l cmmande edhika ntaychouha fi jenkins fi shell w na3tiwouh 9adech kol marra bech y3awed el test avec\"build trigger periodaclly \"c tt hedha how jenkins\r\net on peut ausii choisir par pot build actions pour recevoir des notifs pour chaque itération\r\ncmd doit toujours te5dem avec jenkins\r\njenkins : build \"l'action\" , build trigger comment il va faire les itértions w wa9tech , post build actions */\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/660/courses/{{secondvar}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"660",
+						"courses",
+						"{{secondvar}}"
+					]
+				},
+				"description": "get a specific course by iD "
+			},
+			"response": []
+		},
+		{
+			"name": "edit course",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"Title\": \"Framee\",\r\n      \"Description\": \"Full course of Framee from ZERO\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/660/courses/{{secondvar}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"660",
+						"courses",
+						"{{secondvar}}"
+					]
+				},
+				"description": "edit specific course"
+			},
+			"response": []
+		},
+		{
+			"name": "delte course",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}//660/courses/{{secondvar}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"",
+						"660",
+						"courses",
+						"{{secondvar}}"
+					]
+				},
+				"description": "bla bla"
+			},
+			"response": []
+		},
+		{
+			"name": "get all courses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"check that the api response is 404 after delete \", function () {\r",
+							"    pm.response.to.have.status(404); // pour dire not found\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n      \"Title\": \"JavaScript\",\r\n      \"Description\": \"Full course of Robotframework from ZERO\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/660/courses",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"",
+						"660",
+						"courses"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": "bla "
+			},
+			"response": []
+		}
+	]
+}
